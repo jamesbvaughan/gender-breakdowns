@@ -13,9 +13,9 @@ you are free to use the ruby script that I wrote for it!
 
 1. [Export your Letterboxd data.](https://letterboxd.com/settings/data/)
 2. Run `ruby director-genders.rb` in a directory containing:
-  - [director-genders.rb](https://github.com/jamesbvaughan/gender-breakdowns/blob/master/director-genders.rb)
-  - a `.env` file containing a `TMDB_API_KEY` and a `LETTERBOXD_USERNAME`
-  - the `diary.csv` file that you got from your Letterboxd export
+   - [director-genders.rb](https://github.com/jamesbvaughan/gender-breakdowns/blob/master/director-genders.rb)
+   - a `.env` file containing a `TMDB_API_KEY` and a `LETTERBOXD_USERNAME`
+   - the `diary.csv` file that you got from your Letterboxd export
 3. If you got any unknown results, go add genders to those directors on TMDB
 and re-run the script.
 
