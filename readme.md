@@ -20,3 +20,8 @@ you are free to use the ruby script that I wrote for it!
 and re-run the script.
 
 Let me know if you have any issues and I'll try to help out!
+
+Todo
+---
+
+- support multiple directors per movie

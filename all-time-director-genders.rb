@@ -33,7 +33,12 @@ CSV.foreach(diary_file, headers: true) do |movie|
   unless movie.header_row?
     movie_url = movie[3]
 
-    director = get_director_info_from_movie_url movie_url
+    begin
+      director = get_director_info_from_movie_url movie_url
+    rescue NoMethodError
+      puts "Error finding director info for #{movie[1]}"
+      next
+    end
 
     case director['gender']
     when 0
