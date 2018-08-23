@@ -33,9 +33,6 @@ CSV.foreach(diary_file, headers: true) do |movie|
   unless movie.header_row?
     movie_url = movie[3]
 
-    count += 1
-    puts count
-
     director = get_director_info_from_movie_url movie_url
 
     case director['gender']
@@ -47,7 +44,10 @@ CSV.foreach(diary_file, headers: true) do |movie|
     when 2
       men += 1
     end
+
+    count += 1
+
+    puts "#{women} women, #{men} men, #{unknown} unknown, #{count} total"
   end
 end
 
-puts "#{women} women, #{men} men, #{unknown} unknown"
