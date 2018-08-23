@@ -1,3 +1,2 @@
-diary.csv
 .env
-watched.csv
+*.csv
