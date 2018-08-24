@@ -15,35 +15,40 @@ count = 0
 threads = []
 
 CSV.foreach(diary_file, headers: true) do |movie|
-  unless movie.header_row?
-    threads << Thread.new do
-      movie_url = movie[3]
+  next if movie.header_row?
 
-      movie_doc = Nokogiri::HTML(HTTP.get(movie_url).to_s)
+  threads << Thread.fork do
+    movie_url = movie[3]
 
-      movie_tmdb_id = movie_doc.at_xpath('/html/body/@data-tmdb-id')
+    movie_doc = Nokogiri::HTML(HTTP.get(movie_url).to_s)
 
-      tmdb_url = "https://api.themoviedb.org/3/movie/#{movie_tmdb_id}/credits"
+    movie_tmdb_id = movie_doc.at_xpath('/html/body/@data-tmdb-id')
 
-      movie_credits = JSON.parse HTTP.get("#{tmdb_url}?api_key=#{tmdb_api_key}")
+    tmdb_url = "https://api.themoviedb.org/3/movie/#{movie_tmdb_id}/credits"
 
-      movie_credits['crew'].each do |credit|
-        next unless credit['job'] == 'Director'
+    movie_credits = JSON.parse HTTP.get("#{tmdb_url}?api_key=#{tmdb_api_key}")
 
-        case credit['gender']
-        when 0
-          puts "#{credit['name']} (#{credit['id']}): unknown"
-          unknown += 1
-        when 1
-          women += 1
-        when 2
-          men += 1
-        end
+    if movie_credits.nil?
+      puts "error getting director info for #{movie[1]}"
+      next
+    end
 
-        count += 1
+    movie_credits['crew'].each do |credit|
+      next unless credit['job'] == 'Director'
 
-        puts "#{women} women, #{men} men, #{unknown} unknown, #{count} total"
+      case credit['gender']
+      when 0
+        puts "#{credit['name']} (#{credit['id']}): unknown"
+        unknown += 1
+      when 1
+        women += 1
+      when 2
+        men += 1
       end
+
+      count += 1
+
+      puts "#{women} women, #{men} men, #{unknown} unknown, #{count} total"
     end
   end
 end
