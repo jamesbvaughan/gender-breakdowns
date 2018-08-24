@@ -24,6 +24,11 @@ CSV.foreach(diary_file, headers: true) do |movie|
 
     movie_credits = JSON.parse HTTP.get("#{tmdb_url}?api_key=#{tmdb_api_key}")
 
+    if movie_credits.nil?
+      puts "error getting director info for #{movie[1]}"
+      next
+    end
+
     movie_credits['crew'].each do |credit|
       next unless credit['job'] == 'Director'
 
