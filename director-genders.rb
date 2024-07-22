@@ -9,7 +9,7 @@ women = 0
 CSV.foreach('watched.csv', headers: true) do |movie|
   next if movie.header_row?
 
-  movie_doc = Nokogiri::HTML(HTTP.get(movie[3]).to_s)
+  movie_doc = Nokogiri::HTML(HTTP.follow.get(movie[3]).to_s)
 
   tmdb_id = movie_doc.at_xpath('/html/body/@data-tmdb-id')
 
